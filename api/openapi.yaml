@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: APIFiddle Sample Definition
+  version: 0.0.0
+  description: Example workspace
+  x-fiddle-import-file: true
+servers:
+- url: https://staging.myapi.company.com
+  description: ''
+- url: https://review.myapi.company.com
+  description: ''
+paths:
+  /cats:
+    get:
+      summary: Get all cats
+      security:
+      - BearerJwt: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetAllCatsOk
+                required:
+                - data
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cat'
+          description: OK - Successful request with response body
+      operationId: getAllCats
+  /cats/{cat_id}:
+    get:
+      summary: Get a specific Cat
+      security:
+      - BearerJwt: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                title: GetASpecificCatOk
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+          description: OK - Successful request with response body
+      parameters:
+      - $ref: '#/components/parameters/cat_id'
+      operationId: getASpecificCat
+components:
+  schemas:
+    Cat:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        color:
+          type: string
+        weight:
+          type: number
+          format: float
+      description: A cat
+  parameters:
+    cat_id:
+      in: path
+      name: cat_id
+      schema:
+        type: string
+      required: true
+  securitySchemes:
+    BearerJwt:
+      type: http
+      scheme: Bearer
+      bearerFormat: Json Web Token (JWT)
