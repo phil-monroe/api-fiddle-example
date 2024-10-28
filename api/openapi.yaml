@@ -52,6 +52,26 @@ paths:
       parameters:
       - $ref: '#/components/parameters/cat_id'
       operationId: getASpecificCat
+    patch:
+      summary: Update a Cat
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+      parameters:
+      - $ref: '#/components/parameters/cat_id'
+      operationId: updateACat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+        required: true
+        description: ''
 components:
   schemas:
     Cat:
@@ -69,6 +89,13 @@ components:
           type: number
           format: float
       description: A cat
+  responses:
+    NoContent:
+      content:
+        application/json:
+          schema:
+            type: 'null'
+      description: The request was successful, but there is no content to return in the response.
   parameters:
     cat_id:
       in: path
